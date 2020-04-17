@@ -1,0 +1,20 @@
+{
+    "upyourself": {
+        "awscloudformation": {
+            "AuthRoleName": "amplify-manageez-upyourself-22432-authRole",
+            "UnauthRoleArn": "arn:aws:iam::704943573085:role/amplify-manageez-upyourself-22432-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::704943573085:role/amplify-manageez-upyourself-22432-authRole",
+            "Region": "eu-west-1",
+            "DeploymentBucketName": "amplify-manageez-upyourself-22432-deployment",
+            "UnauthRoleName": "amplify-manageez-upyourself-22432-unauthRole",
+            "StackName": "amplify-manageez-upyourself-22432",
+            "StackId": "arn:aws:cloudformation:eu-west-1:704943573085:stack/amplify-manageez-upyourself-22432/d02f45d0-8041-11ea-87f9-069d5f57c92e",
+            "AmplifyAppId": "d2fehnmn1c4rao"
+        },
+        "categories": {
+            "auth": {
+                "manageez60181161": {}
+            }
+        }
+    }
+}

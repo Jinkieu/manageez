@@ -1,0 +1,10 @@
+{
+	"auth": {
+		"manageez60181161": {
+			"service": "Cognito",
+			"providerPlugin": "awscloudformation",
+			"dependsOn": [],
+			"customAuth": false
+		}
+	}
+}
