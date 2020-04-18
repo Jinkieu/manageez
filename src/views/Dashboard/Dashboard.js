@@ -3,7 +3,7 @@ import React from "react";
 import ChartistGraph from "react-chartist";
 // @material-ui/core
 import { makeStyles } from "@material-ui/core/styles";
-import Icon from "@material-ui/core/Icon";
+
 // @material-ui/icons
 import Store from "@material-ui/icons/Store";
 import DateRange from "@material-ui/icons/DateRange";
@@ -61,7 +61,7 @@ export default function Dashboard() {
                     <Card>
                         <CardHeader color="danger" stats icon>
                             <CardIcon color="danger">
-                                <Icon>info_outline</Icon>
+                                <Done />
                             </CardIcon>
                             <p className={classes.cardCategory}>Projects Finished</p>
                             <h3 className={classes.cardTitle}>75</h3>
