@@ -1,24 +1,21 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import 'bulma/css/bulma.min.css';
-import './index.css';
-import App from './App';
-import Amplify from "aws-amplify";
-import config from "./config";
-import * as serviceWorker from './serviceWorker';
+import React from "react";
+import ReactDOM from "react-dom";
+import { createBrowserHistory } from "history";
+import { Router, Route, Switch, Redirect } from "react-router-dom";
 
-Amplify.configure({
-    Auth: {
-        mandatorySignIn: true,
-        region: config.cognito.REGION,
-        userPoolId: config.cognito.USER_POOL_ID,
-        userPoolWebClientId: config.cognito.APP_CLIENT_ID
-    }
-});
+// core components
+import Admin from "./layouts/Admin.js";
 
-ReactDOM.render(<App />, document.getElementById('root'));
+import "./assets/css/material-dashboard-react.css?v=1.8.0";
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: http://bit.ly/CRA-PWA
-serviceWorker.unregister();
+const hist = createBrowserHistory();
+
+ReactDOM.render(
+    <Router history={hist}>
+        <Switch>
+            <Route path="/admin" component={Admin} />
+            <Redirect from="/" to="/admin/dashboard" />
+        </Switch>
+    </Router>,
+    document.getElementById("root")
+);
