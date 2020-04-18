@@ -36,7 +36,9 @@ import styles from "../../assets/jss/material-dashboard-react/views/dashboardSty
 const useStyles = makeStyles(styles);
 
 export default function Dashboard() {
+
     const classes = useStyles();
+
     return (
         <div>
             <GridContainer>
@@ -172,12 +174,8 @@ export default function Dashboard() {
                         <CardBody>
                             <Table
                                 tableHeaderColor="warning"
-                                tableHead={["ID_Employe", "Name","LastName","Anciennete", "Job", "Salary", "Stats"]}
-                                tableData={[
-                                    ["1", "Phoco", "Master", "3","Tapeur de ventre", "O,04$", "-6"],
-                                    ["2", "Nicow ", "Thong", "5","Conchita", "32$", "69"],
-                                    ["3", "Bogoss", "Mascado", "7","bg", "69696$", "777"]
-                                ]}
+                                tableHead={["Name","LastName","Anciennete", "Job", "Salary", "Stats"]}
+
                             />
                         </CardBody>
                     </Card>

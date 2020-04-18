@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import PropTypes from "prop-types";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
@@ -14,7 +14,19 @@ const useStyles = makeStyles(styles);
 
 export default function CustomTable(props) {
     const classes = useStyles();
-    const { tableHead, tableData, tableHeaderColor } = props;
+    const { tableHead, tableHeaderColor } = props;
+    const [employees, setEmployees] = useState([]);
+    useEffect(() => {
+        async function getEmployees() {
+            const response = await fetch("https://bjz5jcmglg.execute-api.eu-west-1.amazonaws.com/Manageez/employe");
+            const data = await response.json();
+            const tab = data.Employees;
+            console.log(tab);
+            setEmployees(tab);
+        }
+        getEmployees();
+    }, []);
+
     return (
         <div className={classes.tableResponsive}>
             <Table className={classes.table}>
@@ -35,16 +47,27 @@ export default function CustomTable(props) {
                     </TableHead>
                 ) : null}
                 <TableBody>
-                    {tableData.map((prop, key) => {
+                    {employees.map((prop, key) => {
                         return (
                             <TableRow key={key} className={classes.tableBodyRow}>
-                                {prop.map((prop, key) => {
-                                    return (
-                                        <TableCell className={classes.tableCell} key={key}>
-                                            {prop}
-                                        </TableCell>
-                                    );
-                                })}
+                                <TableCell>
+                                    {prop.Name}
+                                </TableCell>
+                                <TableCell>
+                                    {prop.Lastname}
+                                </TableCell>
+                                <TableCell>
+                                    {prop.Anciennete}
+                                </TableCell>
+                                <TableCell>
+                                    {prop.Job}
+                                </TableCell>
+                                <TableCell>
+                                    {prop.Salary}
+                                </TableCell>
+                                <TableCell>
+                                    {prop.Stats}
+                                </TableCell>
                             </TableRow>
                         );
                     })}
@@ -69,5 +92,4 @@ CustomTable.propTypes = {
         "gray"
     ]),
     tableHead: PropTypes.arrayOf(PropTypes.string),
-    tableData: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.string))
 };
