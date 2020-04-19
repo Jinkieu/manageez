@@ -2,6 +2,7 @@
 // @material-ui/icons
 import Dashboard from "@material-ui/icons/Dashboard";
 import Person from "@material-ui/icons/Person";
+import NotificationImportantIcon from '@material-ui/icons/NotificationImportant';
 import LibraryBooks from "@material-ui/icons/LibraryBooks";
 
 // core components/views for Admin layout
@@ -20,8 +21,8 @@ const dashboardRoutes = [
     },
     {
         path: "/user",
-        name: "User Profile",
-        icon: Person,
+        name: "Notification Alerts",
+        icon: NotificationImportantIcon,
         component: UserProfile,
         layout: "/admin"
     },

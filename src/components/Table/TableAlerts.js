@@ -9,6 +9,9 @@ import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 // core components
 import styles from "../../assets/jss/material-dashboard-react/components/tableStyle";
+import Tooltip from "@material-ui/core/Tooltip";
+import {Close, Edit} from "@material-ui/icons";
+import IconButton from "@material-ui/core/IconButton";
 
 
 const useStyles = makeStyles(styles);

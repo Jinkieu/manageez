@@ -8,7 +8,7 @@ import GridContainer from "../../components/Grid/GridContainer.js";
 import Card from "../../components/Card/Card.js";
 import CardHeader from "../../components/Card/CardHeader.js";
 import CardBody from "../../components/Card/CardBody.js";
-import Table from "../../components/Table/TableAlerts.js";
+import Table from "../../components/Table/Events.js";
 
 const styles = {
     cardCategoryWhite: {
@@ -43,12 +43,7 @@ export default function UserProfile() {
                     <CardBody>
                         <Table
                             tableHeaderColor="primary"
-                            tableHead={["ID_Alert", "Name", "Category","Description"]}
-                            tableData={[
-                                ["1", "Phoco", "Dev", "Fire"],
-                                ["2", "Jinkieu", "Dev", "Fire"],
-                                ["3", "Nazuko", "Dev", "Fire"],
-                            ]}
+                            tableHead={["Name", "Category","Description","Actions"]}
                         />
                     </CardBody>
                 </Card>
