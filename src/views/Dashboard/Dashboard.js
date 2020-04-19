@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 // react plugin for creating charts
 import ChartistGraph from "react-chartist";
 // @material-ui/core
@@ -23,7 +23,7 @@ import CardHeader from "../../components/Card/CardHeader";
 import CardIcon from "../../components/Card/CardIcon";
 import CardBody from "../../components/Card/CardBody";
 import CardFooter from "../../components/Card/CardFooter";
-import { bugs, website, server, pjs } from "../../variables/general";
+import PropTypes from "prop-types";
 
 
 import {
@@ -38,6 +38,35 @@ const useStyles = makeStyles(styles);
 export default function Dashboard() {
 
     const classes = useStyles();
+
+    const [pjs, setPjs] = useState([]);
+    const [tab_wait, setTab_wait] = useState([]);
+    const [tab_progress, setTab_progress] = useState([]);
+    const [tab_done, setTab_done] = useState([]);
+
+    useEffect(() => {
+        async function getProjects() {
+            const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
+            const response = await fetch(proxyUrl+"https://bjz5jcmglg.execute-api.eu-west-1.amazonaws.com/Manageez/projet");
+            const data = await response.json();
+            const tab = data.Projects;
+            var pj_wait = [];
+            var pj_progress = [];
+            var pj_done = [];
+            tab.forEach((element) => {
+                if(element.State === 0) pj_wait.push(element);
+                if(element.State === 1) pj_progress.push(element);
+                if(element.State === 2) pj_done.push(element);
+            });
+            const tab1 = pj_wait;
+
+            setTab_wait(pj_wait);
+            setTab_progress(pj_progress);
+            setTab_done(pj_done);
+            setPjs(tab);
+        }
+        getProjects();
+    }, []);
 
     return (
         <div>
@@ -132,11 +161,10 @@ export default function Dashboard() {
                                 tabIcon: Subject,
                                 tabContent: (
                                     <Tasks
-                                        tableHeaderColor="warning"
+
                                         tableHead={["Name","Description","Type", "Duration", "Benefice", "Resources","Cost"]}
                                         checkedIndexes={[0, 3]}
-                                        tasksIndexes={[0, 1, 2, 3]}
-                                        tasks={pjs}
+                                        tasks={tab_wait}
                                     />
                                 )
                             },
@@ -145,9 +173,10 @@ export default function Dashboard() {
                                 tabIcon: Autorenew,
                                 tabContent: (
                                     <Tasks
+
+                                        tableHead={["Name","Description","Type", "Duration", "Benefice", "Resources","Cost"]}
                                         checkedIndexes={[0]}
-                                        tasksIndexes={[0, 1]}
-                                        tasks={website}
+                                        tasks={tab_progress}
                                     />
                                 )
                             },
@@ -157,9 +186,9 @@ export default function Dashboard() {
                                 tabContent: (
                                     <Tasks
 
+                                        tableHead={["Name","Description","Type", "Duration", "Benefice", "Resources","Cost"]}
                                         checkedIndexes={[1]}
-                                        tasksIndexes={[0, 1, 2]}
-                                        tasks={server}
+                                        tasks={tab_done}
                                     />
                                 )
                             }

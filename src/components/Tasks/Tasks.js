@@ -33,32 +33,19 @@ export default function Tasks(props) {
         }
         setChecked(newChecked);
     };
-    const {  tasks, rtlActive } = props;
+    const {  tasks, rtlActive, tableHead } = props;
+
+
     const tableCellClasses = classnames(classes.tableCell, {
         [classes.tableCellRTL]: rtlActive
     });
-    const { tableHead, tableHeaderColor } = props;
-    const [pjs, setPjs] = useState([]);
-
-    useEffect(() => {
-        async function getProjects() {
-            const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
-            const response = await fetch(proxyUrl+"https://bjz5jcmglg.execute-api.eu-west-1.amazonaws.com/Manageez/projet");
-            const data = await response.json();
-            const tab = data.Projects;
-            console.log(tab);
-            setPjs(tab);
-        }
-        getProjects();
-    }, []);
-
 
 
 
     return (
         <Table className={classes.table}>
             {tableHead !== undefined ? (
-                <TableHead className={classes[tableHeaderColor + "TableHeader"]}>
+                <TableHead>
                     <TableRow className={classes.tableHeadRow}>
                         {tableHead.map((prop, key) => {
                             return (
@@ -74,7 +61,7 @@ export default function Tasks(props) {
                 </TableHead>
             ) : null}
             <TableBody>
-                {pjs.map((prop, key) => {
+                {tasks.map((prop, key) => {
                     return (
                         <TableRow key={key} className={classes.tableBodyRow}>
                             <TableCell>
