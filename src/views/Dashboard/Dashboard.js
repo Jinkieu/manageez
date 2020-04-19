@@ -23,7 +23,7 @@ import CardHeader from "../../components/Card/CardHeader";
 import CardIcon from "../../components/Card/CardIcon";
 import CardBody from "../../components/Card/CardBody";
 import CardFooter from "../../components/Card/CardFooter";
-import { bugs, website, server } from "../../variables/general";
+import { bugs, website, server, pjs } from "../../variables/general";
 
 
 import {
@@ -84,7 +84,7 @@ export default function Dashboard() {
                             <ChartistGraph
                                 className="ct-chart"
                                 data={dailySalesChart.data}
-                                type="Line"
+                                type="Bar"
                                 options={dailySalesChart.options}
                                 listener={dailySalesChart.animation}
                             />
@@ -105,7 +105,7 @@ export default function Dashboard() {
                             <ChartistGraph
                                 className="ct-chart"
                                 data={completedTasksChart.data}
-                                type="Line"
+                                type="Bar"
                                 options={completedTasksChart.options}
                                 listener={completedTasksChart.animation}
                             />
@@ -132,9 +132,11 @@ export default function Dashboard() {
                                 tabIcon: Subject,
                                 tabContent: (
                                     <Tasks
+                                        tableHeaderColor="warning"
+                                        tableHead={["Name","Description","Type", "Duration", "Benefice", "Resources","Cost"]}
                                         checkedIndexes={[0, 3]}
                                         tasksIndexes={[0, 1, 2, 3]}
-                                        tasks={bugs}
+                                        tasks={pjs}
                                     />
                                 )
                             },
@@ -154,6 +156,7 @@ export default function Dashboard() {
                                 tabIcon: Done,
                                 tabContent: (
                                     <Tasks
+
                                         checkedIndexes={[1]}
                                         tasksIndexes={[0, 1, 2]}
                                         tasks={server}

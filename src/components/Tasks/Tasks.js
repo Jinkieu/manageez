@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import PropTypes from "prop-types";
 import classnames from "classnames";
 // @material-ui/core components
@@ -16,6 +16,7 @@ import Close from "@material-ui/icons/Close";
 import Check from "@material-ui/icons/Check";
 // core components
 import styles from "../../assets/jss/material-dashboard-react/components/tasksStyle";
+import TableHead from "@material-ui/core/TableHead";
 
 const useStyles = makeStyles(styles);
 
@@ -32,67 +33,74 @@ export default function Tasks(props) {
         }
         setChecked(newChecked);
     };
-    const { tasksIndexes, tasks, rtlActive } = props;
+    const {  tasks, rtlActive } = props;
     const tableCellClasses = classnames(classes.tableCell, {
         [classes.tableCellRTL]: rtlActive
     });
+    const { tableHead, tableHeaderColor } = props;
+    const [pjs, setPjs] = useState([]);
+
+    useEffect(() => {
+        async function getProjects() {
+            const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
+            const response = await fetch(proxyUrl+"https://bjz5jcmglg.execute-api.eu-west-1.amazonaws.com/Manageez/projet");
+            const data = await response.json();
+            const tab = data.Projects;
+            console.log(tab);
+            setPjs(tab);
+        }
+        getProjects();
+    }, []);
+
+
+
+
     return (
         <Table className={classes.table}>
-            <TableBody>
-                {tasksIndexes.map(value => (
-                    <TableRow key={value} className={classes.tableRow}>
-                        <TableCell className={tableCellClasses}>
-                            <Checkbox
-                                checked={checked.indexOf(value) !== -1}
-                                tabIndex={-1}
-                                onClick={() => handleToggle(value)}
-                                checkedIcon={<Check className={classes.checkedIcon} />}
-                                icon={<Check className={classes.uncheckedIcon} />}
-                                classes={{
-                                    checked: classes.checked,
-                                    root: classes.root
-                                }}
-                            />
-                        </TableCell>
-                        <TableCell className={tableCellClasses}>{tasks[value]}</TableCell>
-                        <TableCell className={classes.tableActions}>
-                            <Tooltip
-                                id="tooltip-top"
-                                title="Edit Task"
-                                placement="top"
-                                classes={{ tooltip: classes.tooltip }}
-                            >
-                                <IconButton
-                                    aria-label="Edit"
-                                    className={classes.tableActionButton}
+            {tableHead !== undefined ? (
+                <TableHead className={classes[tableHeaderColor + "TableHeader"]}>
+                    <TableRow className={classes.tableHeadRow}>
+                        {tableHead.map((prop, key) => {
+                            return (
+                                <TableCell
+                                    className={classes.tableCell + " " + classes.tableHeadCell}
+                                    key={key}
                                 >
-                                    <Edit
-                                        className={
-                                            classes.tableActionButtonIcon + " " + classes.edit
-                                        }
-                                    />
-                                </IconButton>
-                            </Tooltip>
-                            <Tooltip
-                                id="tooltip-top-start"
-                                title="Remove"
-                                placement="top"
-                                classes={{ tooltip: classes.tooltip }}
-                            >
-                                <IconButton
-                                    aria-label="Close"
-                                    className={classes.tableActionButton}
-                                >
-                                    <Close
-                                        className={
-                                            classes.tableActionButtonIcon + " " + classes.close
-                                        }
-                                    />
-                                </IconButton>
-                            </Tooltip>
-                        </TableCell>
+                                    {prop}
+                                </TableCell>
+                            );
+                        })}
                     </TableRow>
-                ))}
+                </TableHead>
+            ) : null}
+            <TableBody>
+                {pjs.map((prop, key) => {
+                    return (
+                        <TableRow key={key} className={classes.tableBodyRow}>
+                            <TableCell>
+                                {prop.Name}
+                            </TableCell>
+                            <TableCell>
+                                {prop.Description}
+                            </TableCell>
+                            <TableCell>
+                                {prop.Type}
+                            </TableCell>
+                            <TableCell>
+                                {prop.Duration}
+                            </TableCell>
+                            <TableCell>
+                                {prop.Benefit}
+                            </TableCell>
+                            <TableCell>
+                                {prop.Resources}
+                            </TableCell>
+                            <TableCell>
+                                {prop.Cost}
+                            </TableCell>
+                        </TableRow>
+                    );
+                })}
             </TableBody>
         </Table>
     );
