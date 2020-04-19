@@ -1,18 +1,14 @@
-import React, {useState, useEffect} from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import classnames from "classnames";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 import Checkbox from "@material-ui/core/Checkbox";
-import Tooltip from "@material-ui/core/Tooltip";
-import IconButton from "@material-ui/core/IconButton";
 import Table from "@material-ui/core/Table";
 import TableRow from "@material-ui/core/TableRow";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 // @material-ui/icons
-import Edit from "@material-ui/icons/Edit";
-import Close from "@material-ui/icons/Close";
 import Check from "@material-ui/icons/Check";
 // core components
 import styles from "../../assets/jss/material-dashboard-react/components/tasksStyle";
@@ -22,7 +18,7 @@ const useStyles = makeStyles(styles);
 
 export default function Tasks(props) {
     const classes = useStyles();
-    const [checked, setChecked] = React.useState([...props.checkedIndexes]);
+    const [checked, setChecked] = React.useState([]);
     const handleToggle = value => {
         const currentIndex = checked.indexOf(value);
         const newChecked = [...checked];
@@ -64,6 +60,19 @@ export default function Tasks(props) {
                 {tasks.map((prop, key) => {
                     return (
                         <TableRow key={key} className={classes.tableBodyRow}>
+                            <TableCell className={tableCellClasses}>
+                                <Checkbox
+                                    checked={checked.indexOf(key) !== -1}
+                                    tabIndex={-1}
+                                    onClick={() => handleToggle(key)}
+                                    checkedIcon={<Check className={classes.checkedIcon} />}
+                                    icon={<Check className={classes.uncheckedIcon} />}
+                                    classes={{
+                                        checked: classes.checked,
+                                        root: classes.root
+                                    }}
+                                />
+                            </TableCell>
                             <TableCell>
                                 {prop.Name}
                             </TableCell>
@@ -95,7 +104,6 @@ export default function Tasks(props) {
 
 Tasks.propTypes = {
     tasksIndexes: PropTypes.arrayOf(PropTypes.number),
-    tasks: PropTypes.arrayOf(PropTypes.node),
     rtlActive: PropTypes.bool,
     checkedIndexes: PropTypes.array
 };

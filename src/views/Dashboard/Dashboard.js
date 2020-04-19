@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useState, useEffect} from "react";
 // react plugin for creating charts
 import ChartistGraph from "react-chartist";
 // @material-ui/core
@@ -23,8 +23,6 @@ import CardHeader from "../../components/Card/CardHeader";
 import CardIcon from "../../components/Card/CardIcon";
 import CardBody from "../../components/Card/CardBody";
 import CardFooter from "../../components/Card/CardFooter";
-import PropTypes from "prop-types";
-
 
 import {
     dailySalesChart,
@@ -39,7 +37,6 @@ export default function Dashboard() {
 
     const classes = useStyles();
 
-    const [pjs, setPjs] = useState([]);
     const [tab_wait, setTab_wait] = useState([]);
     const [tab_progress, setTab_progress] = useState([]);
     const [tab_done, setTab_done] = useState([]);
@@ -58,12 +55,10 @@ export default function Dashboard() {
                 if(element.State === 1) pj_progress.push(element);
                 if(element.State === 2) pj_done.push(element);
             });
-            const tab1 = pj_wait;
 
             setTab_wait(pj_wait);
             setTab_progress(pj_progress);
             setTab_done(pj_done);
-            setPjs(tab);
         }
         getProjects();
     }, []);
@@ -151,7 +146,7 @@ export default function Dashboard() {
                 </GridItem>
             </GridContainer>
             <GridContainer>
-                <GridItem xs={12} sm={12} md={6}>
+                <GridItem xs={12} sm={12} md={12}>
                     <CustomTabs
                         title="Projects:"
                         headerColor="primary"
@@ -162,8 +157,7 @@ export default function Dashboard() {
                                 tabContent: (
                                     <Tasks
 
-                                        tableHead={["Name","Description","Type", "Duration", "Benefice", "Resources","Cost"]}
-                                        checkedIndexes={[0, 3]}
+                                        tableHead={["Choice","Name","Description","Type", "Duration", "Benefice", "Resources","Cost"]}
                                         tasks={tab_wait}
                                     />
                                 )
@@ -174,8 +168,7 @@ export default function Dashboard() {
                                 tabContent: (
                                     <Tasks
 
-                                        tableHead={["Name","Description","Type", "Duration", "Benefice", "Resources","Cost"]}
-                                        checkedIndexes={[0]}
+                                        tableHead={["Choice","Name","Description","Type", "Duration", "Benefice", "Resources","Cost"]}
                                         tasks={tab_progress}
                                     />
                                 )
@@ -186,8 +179,7 @@ export default function Dashboard() {
                                 tabContent: (
                                     <Tasks
 
-                                        tableHead={["Name","Description","Type", "Duration", "Benefice", "Resources","Cost"]}
-                                        checkedIndexes={[1]}
+                                        tableHead={["Choice","Name","Description","Type", "Duration", "Benefice", "Resources","Cost"]}
                                         tasks={tab_done}
                                     />
                                 )
@@ -195,7 +187,7 @@ export default function Dashboard() {
                         ]}
                     />
                 </GridItem>
-                <GridItem xs={12} sm={12} md={6}>
+                <GridItem xs={12} sm={12} md={12}>
                     <Card>
                         <CardHeader color="warning">
                             <h4 className={classes.cardTitleWhite}>Employees</h4>
@@ -207,7 +199,6 @@ export default function Dashboard() {
                             <Table
                                 tableHeaderColor="warning"
                                 tableHead={["Name","LastName","Anciennete", "Job", "Salary", "Stats"]}
-
                             />
                         </CardBody>
                     </Card>

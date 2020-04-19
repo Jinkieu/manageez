@@ -4,7 +4,7 @@ import { makeStyles } from "@material-ui/core/styles";
 // core components
 import GridItem from "../../components/Grid/GridItem.js";
 import GridContainer from "../../components/Grid/GridContainer.js";
-import Table from "../../components/Table/Table.js";
+import Table from "../../components/Table/RH.js";
 import Card from "../../components/Card/Card.js";
 import CardHeader from "../../components/Card/CardHeader.js";
 import CardBody from "../../components/Card/CardBody.js";
@@ -59,12 +59,7 @@ export default function TableList() {
                     <CardBody>
                         <Table
                             tableHeaderColor="primary"
-                            tableHead={["ID_Employe", "Name","LastName","Anciennete", "Job", "Salary", "Stats"]}
-                            tableData={[
-                                ["1", "Phoco", "Master", "3","Tapeur de ventre", "O,04$", "-6"],
-                                ["2", "Nicow ", "Thong", "5","Conchita", "32$", "69"],
-                                ["3", "Bogoss", "Mascado", "7","bg", "69696$", "777"]
-                            ]}
+                            tableHead={["Name","LastName","Anciennete", "Job", "Salary", "Stats","Actions"]}
                         />
                     </CardBody>
                 </Card>
