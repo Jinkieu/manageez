@@ -40,6 +40,7 @@ export default function Dashboard() {
     const [tab_wait, setTab_wait] = useState([]);
     const [tab_progress, setTab_progress] = useState([]);
     const [tab_done, setTab_done] = useState([]);
+    const [stats, setStats] = useState([]);
 
     useEffect(() => {
         async function getProjects() {
@@ -63,6 +64,19 @@ export default function Dashboard() {
         getProjects();
     }, []);
 
+    useEffect(() => {
+        async function getStatsCompany() {
+            const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
+            const response = await fetch(proxyUrl+"https://bjz5jcmglg.execute-api.eu-west-1.amazonaws.com/Manageez/statsentreprise");
+            const data = await response.json();
+            const res = data.Employees;
+            console.log(res);
+
+            setStats(res);
+        }
+        getStatsCompany();
+    }, []);
+
     return (
         <div>
             <GridContainer>
@@ -73,7 +87,15 @@ export default function Dashboard() {
                                 <Store />
                             </CardIcon>
                             <p className={classes.cardCategory}>Capital</p>
-                            <h3 className={classes.cardTitle}>$34,245</h3>
+                            <h3 className={classes.cardTitle}>
+                                {stats.map((prop, key) => {
+                                return (
+                                    <div key={key} className={classes.tableBodyRow}>
+                                        <p> Name : {prop.Name} &emsp; Effectif : {prop.Effectif} &emsp; ${prop.Capital}</p>
+                                    </div>
+                                );
+                            })}
+                            </h3>
                         </CardHeader>
                         <CardFooter stats>
                             <div className={classes.stats}>
@@ -95,7 +117,6 @@ export default function Dashboard() {
                         <CardFooter stats>
                             <div className={classes.stats}>
                                 <LocalOffer />
-                                Tracked from Github
                             </div>
                         </CardFooter>
                     </Card>
