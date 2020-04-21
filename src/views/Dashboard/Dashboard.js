@@ -23,11 +23,8 @@ import CardHeader from "../../components/Card/CardHeader";
 import CardIcon from "../../components/Card/CardIcon";
 import CardBody from "../../components/Card/CardBody";
 import CardFooter from "../../components/Card/CardFooter";
+import Button from "@material-ui/core/Button";
 
-import {
-    dailySalesChart,
-    completedTasksChart
-} from "../../variables/charts";
 
 import styles from "../../assets/jss/material-dashboard-react/views/dashboardStyle";
 
@@ -41,6 +38,14 @@ export default function Dashboard() {
     const [tab_progress, setTab_progress] = useState([]);
     const [tab_done, setTab_done] = useState([]);
     const [stats, setStats] = useState([]);
+
+    const [count, setCount] = useState(3);
+
+    const [capitalChart, setCapital] = useState([]);
+    const [payrollChart, setPayroll] = useState([]);
+
+    const [currentTime, setCurrentTime] = useState([]);
+
 
     useEffect(() => {
         async function getProjects() {
@@ -77,6 +82,146 @@ export default function Dashboard() {
         getStatsCompany();
     }, []);
 
+    useEffect(() => {
+        async function getCharts() {
+            const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
+            const response = await fetch(proxyUrl+"https://bjz5jcmglg.execute-api.eu-west-1.amazonaws.com/Manageez/capital");
+            const data = await response.json();
+            const res = data.finance;
+
+            res.sort(function(a,b) {return a.Nbr - b.Nbr});
+            console.log(res);
+            var capital = [];
+            var payroll = [];
+            var month = [];
+            res.forEach((element) => {
+                month.push(element.Nbr);
+                capital.push(element.Capital);
+                payroll.push(element.Payroll);
+            });
+            var delays = 80,
+                durations = 500;
+            var Chartist = require("chartist");
+            const dailySalesChart = {
+                data: {
+                    labels: month,
+                    series: [capital]
+                },
+                options: {
+                    lineSmooth: Chartist.Interpolation.cardinal({
+                        tension: 0
+                    }),
+                    low: 0,
+                    high: 50000, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
+                    chartPadding: {
+                        top: 0,
+                        right: 0,
+                        bottom: 0,
+                        left: 0
+                    }
+                },
+                // for animation
+                animation: {
+                    draw: function(data) {
+                        if (data.type === "line" || data.type === "area") {
+                            data.element.animate({
+                                d: {
+                                    begin: 600,
+                                    dur: 700,
+                                    from: data.path
+                                        .clone()
+                                        .scale(1, 0)
+                                        .translate(0, data.chartRect.height())
+                                        .stringify(),
+                                    to: data.path.clone().stringify(),
+                                    easing: Chartist.Svg.Easing.easeOutQuint
+                                }
+                            });
+                        } else if (data.type === "point") {
+                            data.element.animate({
+                                opacity: {
+                                    begin: (data.index + 1) * delays,
+                                    dur: durations,
+                                    from: 0,
+                                    to: 1,
+                                    easing: "ease"
+                                }
+                            });
+                        }
+                    }
+                }
+            };
+            setCapital(dailySalesChart);
+            const completedTasksChart = {
+                data: {
+                    labels: month,
+                    series: [payroll]
+                },
+                options: {
+                    lineSmooth: Chartist.Interpolation.cardinal({
+                        tension: 0
+                    }),
+                    low: 0,
+                    high: 12000, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
+                    chartPadding: {
+                        top: 0,
+                        right: 0,
+                        bottom: 0,
+                        left: 0
+                    }
+                },
+                animation: {
+                    draw: function(data) {
+                        if (data.type === "line" || data.type === "area") {
+                            data.element.animate({
+                                d: {
+                                    begin: 600,
+                                    dur: 700,
+                                    from: data.path
+                                        .clone()
+                                        .scale(1, 0)
+                                        .translate(0, data.chartRect.height())
+                                        .stringify(),
+                                    to: data.path.clone().stringify(),
+                                    easing: Chartist.Svg.Easing.easeOutQuint
+                                }
+                            });
+                        } else if (data.type === "point") {
+                            data.element.animate({
+                                opacity: {
+                                    begin: (data.index + 1) * delays,
+                                    dur: durations,
+                                    from: 0,
+                                    to: 1,
+                                    easing: "ease"
+                                }
+                            });
+                        }
+                    }
+                }
+            };
+            setPayroll(completedTasksChart);
+        }
+        getCharts();
+    }, []);
+
+
+    useEffect( () => {
+        async function fetchTime() {
+            const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
+            const response = await fetch(proxyUrl+"https://bjz5jcmglg.execute-api.eu-west-1.amazonaws.com/Manageez/time");
+            const data = await response.json();
+            const res = data.finance;
+            var tab = [];
+            res.forEach((e) => {
+                tab.push(e.Current);
+            });
+            setCurrentTime(tab[0])
+        }
+        fetchTime();
+    }, []);
+
+
     return (
         <div>
             <GridContainer>
@@ -111,8 +256,9 @@ export default function Dashboard() {
                             <CardIcon color="danger">
                                 <Done />
                             </CardIcon>
-                            <p className={classes.cardCategory}>Projects Finished</p>
-                            <h3 className={classes.cardTitle}>75</h3>
+                            <p className={classes.cardCategory}>Current Time</p>
+                            <h3 className={classes.cardTitle}>{currentTime}</h3>
+                            <Button> RUN </Button>
                         </CardHeader>
                         <CardFooter stats>
                             <div className={classes.stats}>
@@ -128,10 +274,10 @@ export default function Dashboard() {
                         <CardHeader color="success">
                             <ChartistGraph
                                 className="ct-chart"
-                                data={dailySalesChart.data}
-                                type="Bar"
-                                options={dailySalesChart.options}
-                                listener={dailySalesChart.animation}
+                                data={capitalChart.data}
+                                type="Line"
+                                options={capitalChart.options}
+                                listener={capitalChart.animation}
                             />
                         </CardHeader>
                         <CardBody>
@@ -149,10 +295,10 @@ export default function Dashboard() {
                         <CardHeader color="danger">
                             <ChartistGraph
                                 className="ct-chart"
-                                data={completedTasksChart.data}
-                                type="Bar"
-                                options={completedTasksChart.options}
-                                listener={completedTasksChart.animation}
+                                data={payrollChart.data}
+                                type="Line"
+                                options={payrollChart.options}
+                                listener={payrollChart.animation}
                             />
                         </CardHeader>
                         <CardBody>

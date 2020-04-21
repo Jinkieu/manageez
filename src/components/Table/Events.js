@@ -67,7 +67,7 @@ export default function CustomTable(props) {
                                 <TableCell className={classes.tableActions}>
                                     <Tooltip
                                         id="tooltip-top"
-                                        title="Accept"
+                                        title="You will upgrade your performances (Cost: 10000$)"
                                         placement="top"
                                         classes={{ tooltip: classes.tooltip }}
                                     >
@@ -84,7 +84,7 @@ export default function CustomTable(props) {
                                     </Tooltip>
                                     <Tooltip
                                         id="tooltip-top-start"
-                                        title="Remove"
+                                        title="You will lose productivity"
                                         placement="top"
                                         classes={{ tooltip: classes.tooltip }}
                                     >

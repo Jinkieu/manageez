@@ -8,6 +8,7 @@ import NotificationImportantIcon from '@material-ui/icons/NotificationImportant'
 import DashboardPage from "./views/Dashboard/Dashboard";
 import UserProfile from "./views/UserProfile/UserProfile";
 import TableList from "./views/TableList/TableList";
+import SignIn from "./components/Login/Login";
 
 const dashboardRoutes = [
     {
@@ -30,6 +31,14 @@ const dashboardRoutes = [
         icon: Person,
         component: TableList,
         layout: "/admin"
+    },
+    {
+        path: "/login",
+        name : "Profile",
+        icon: Person,
+        component: SignIn,
+        layout: "/admin"
+
     }
 ];
 

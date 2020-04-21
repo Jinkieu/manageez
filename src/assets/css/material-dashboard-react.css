@@ -38,6 +38,13 @@
     display: flex;
 }
 
+.ct-chart  {
+
+    fill-opacity: 0;
+    stroke: none;
+
+}
+
 .ct-label {
     fill: rgba(0, 0, 0, 0.4);
     line-height: 1;
